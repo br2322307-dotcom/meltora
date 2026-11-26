@@ -266,13 +266,18 @@ export const initialStoreState = {
   ghees: defaultGhees,
 };
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
+const DEFAULT_PROD_API = "https://meltora-br-server.vercel.app";
 
 function isLocalDevHost() {
   if (typeof window === "undefined") return false;
   const host = window.location.hostname;
   return host === "localhost" || host === "127.0.0.1";
 }
+
+const API_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL ||
+  (typeof window !== "undefined" && !isLocalDevHost() ? DEFAULT_PROD_API : "")
+).replace(/\/+$/, "");
 
 async function apiFetch(path, options = {}, token = "") {
   const headers = { ...(options.headers || {}) };
