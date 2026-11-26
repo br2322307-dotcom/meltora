@@ -474,6 +474,7 @@ def serve_frontend(path):
         return send_from_directory(app.static_folder, "index.html")
     return jsonify({
         "message": "Meltora Flask + MongoDB Backend is Running!",
+        "received_path": request.path,
         "api_endpoints": ["/api/health", "/api/home-data", "/api/orders", "/api/products", "/api/hero-slides"],
         "hint": "Run 'npm run build' in my-react-app or start Vite on port 5173.",
     })
