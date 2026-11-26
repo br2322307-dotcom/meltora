@@ -266,6 +266,8 @@ export const initialStoreState = {
   ghees: defaultGhees,
 };
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
+
 function isLocalDevHost() {
   if (typeof window === "undefined") return false;
   const host = window.location.hostname;
@@ -278,10 +280,12 @@ async function apiFetch(path, options = {}, token = "") {
     headers.Authorization = `Bearer ${token}`;
   }
   const finalOptions = { ...options, headers };
-  const canFallbackLocal = !path.startsWith("http") && isLocalDevHost();
+  const resolvedPath =
+    !path.startsWith("http") && API_BASE_URL ? `${API_BASE_URL}${path}` : path;
+  const canFallbackLocal = !path.startsWith("http") && !API_BASE_URL && isLocalDevHost();
 
   try {
-    const res = await fetch(path, finalOptions);
+    const res = await fetch(resolvedPath, finalOptions);
     if (res.ok || res.status === 401 || !canFallbackLocal) return res;
     const directRes = await fetch(`http://127.0.0.1:5000${path}`, finalOptions);
     if (directRes.ok || directRes.status === 401) return directRes;
