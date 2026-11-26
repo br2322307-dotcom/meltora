@@ -1,6 +1,13 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
-export default defineConfig({
-  plugins: [react()],
-});
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/meltora-br-admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/((?!assets/|favicon\\.svg|icons\\.svg).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
