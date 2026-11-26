@@ -580,7 +580,9 @@ export function useMeltoraFlux() {
       } catch {
         dispatch({
           type: ActionTypes.ADMIN_LOGIN_ERROR,
-          payload: "Backend server unreachable. Start Flask on port 5000.",
+          payload: isLocalDevHost()
+            ? "Backend server unreachable. Start Flask on port 5000."
+            : "Cannot reach backend API. Check VITE_API_BASE_URL and server status.",
         });
         return false;
       }
@@ -631,7 +633,9 @@ export function useMeltoraFlux() {
     } catch {
       dispatch({
         type: ActionTypes.HOME_DATA_ERROR,
-        payload: "Flask backend disconnected. Start 'python app.py' in backend/.",
+        payload: isLocalDevHost()
+          ? "Flask backend disconnected. Start 'python app.py' in backend/."
+          : "Backend API disconnected. Check VITE_API_BASE_URL and server status.",
       });
     }
   }, []);
