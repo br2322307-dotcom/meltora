@@ -2,11 +2,15 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "https://meltora-br-server.vercel.app/api/$1"
+    },
+    {
       "source": "/meltora-br-admin",
       "destination": "/index.html"
     },
     {
-      "source": "/((?!assets/|favicon\\.svg|icons\\.svg).*)",
+      "source": "/((?!api/|assets/|favicon\\.svg|icons\\.svg).*)",
       "destination": "/index.html"
     }
   ]
